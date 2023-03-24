@@ -5,30 +5,30 @@
 #include "core/utils.h"
 #include "core/graph.h"
 
-long countTriangles(uintV *array1, uintE len1, uintV *array2, uintE len2,
-                     uintV u, uintV v) {
-  uintE i = 0, j = 0; // indexes for array1 and array2
-  long count = 0;
+long countTriangles(uintV *array1, uintE len1, uintV *array2, uintE len2, uintV u, uintV v)
+{
+    uintE i = 0, j = 0; // indexes for array1 and array2
+    long count = 0;
 
-  if (u == v)
-    return count;
+    if (u == v)
+        return count;
 
-  while ((i < len1) && (j < len2)) {
-    if (array1[i] == array2[j]) {
-      if ((array1[i] != u) && (array1[i] != v)) {
-        count++;
-      } else {
-        // triangle with self-referential edge -> ignore
-      }
-      i++;
-      j++;
-    } else if (array1[i] < array2[j]) {
-      i++;
-    } else {
-      j++;
+    while ((i < len1) && (j < len2)) {
+        if (array1[i] == array2[j]) {
+            if ((array1[i] != u) && (array1[i] != v)) {
+                count++;
+            } else {
+                // triangle with self-referential edge -> ignore
+            }
+            i++;
+            j++;
+        } else if (array1[i] < array2[j]) {
+            i++;
+        } else {
+            j++;
+        }
     }
-  }
-  return count;
+    return count;
 }
 
 void triangleCountSerial(Graph &g)
@@ -38,11 +38,9 @@ void triangleCountSerial(Graph &g)
     double time_taken;
     timer t1;
     t1.start();
-    for (uintV u = 0; u < n; u++)
-    {
+    for (uintV u = 0; u < n; u++) {
         uintE out_degree = g.vertices_[u].getOutDegree();
-        for (uintE i = 0; i < out_degree; i++)
-        {
+        for (uintE i = 0; i < out_degree; i++) {
             uintV v = g.vertices_[u].getOutNeighbor(i);
             triangle_count += countTriangles(g.vertices_[u].getInNeighbors(),
                                              g.vertices_[u].getInDegree(),
@@ -72,9 +70,9 @@ int main(int argc, char *argv[])
 {
     cxxopts::Options options("triangle_counting_serial", "Count the number of triangles using serial and parallel execution");
     options.add_options("custom", {
-                                      {"strategy", "Strategy to be used", cxxopts::value<uint>()->default_value(DEFAULT_STRATEGY)},
-                                      {"inputFile", "Input graph file path", cxxopts::value<std::string>()->default_value("/scratch/input_graphs/roadNet-CA")},
-                                  });
+            {"strategy", "Strategy to be used", cxxopts::value<uint>()->default_value(DEFAULT_STRATEGY)},
+            {"inputFile", "Input graph file path", cxxopts::value<std::string>()->default_value("/scratch/input_graphs/roadNet-CA")},
+    });
 
     auto cl_options = options.parse(argc, argv);
     uint strategy = cl_options["strategy"].as<uint>();
