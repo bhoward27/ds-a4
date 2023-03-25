@@ -7,8 +7,7 @@ endif
 CXX = g++
 MPICXX = mpic++
 
-# TODO: Change back to this --> CXXFLAGS = -std=c++14 -O3 $(MACRO)
-CXXFLAGS = -std=c++14 -g $(MACRO) -Wall -Werror -Wno-error=unknown-pragmas
+CXXFLAGS = -std=c++14 -O3 $(MACRO)
 
 COMMON= core/utils.h core/cxxopts.h core/get_time.h core/graph.h core/quick_sort.h
 
